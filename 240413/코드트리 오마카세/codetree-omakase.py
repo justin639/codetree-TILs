@@ -9,6 +9,7 @@ que_l = [[0]*15000 for _ in range(L)]
 # print(que_l)
 que = deque(que_l)
 name_dict = {}
+query_list = []
 table_list = [[0]*15000 for _ in range(L)]
 customer_list = [-1] * 15000
 T = 1
@@ -25,6 +26,16 @@ def name_hash(name):
 
 for _ in range(Q):
     line = list(input().split())
+    query_list.append(line)
+    if len(line) == 4:
+        in_type, t, x, name = line
+        name_hash(name)
+    elif len(line) == 5:
+        in_type, t, x, name, n = line
+        name_hash(name)
+
+for k in range(Q):
+    line = query_list[k]
     in_type, t, x, name, n = -1, 0, 0, "", 0
     if len(line) == 4:
         in_type, t, x, name = line
@@ -48,6 +59,7 @@ for _ in range(Q):
                 i = customer_list[j]
                 if table_list[i][j] > 0 and que_l[i][j] > 0:
                     left = table_list[i][j] - que_l[i][j]
+                    # print(name_list[j] + " " + str(left))
                     if left > 0:
                         table_list[i][j] = left
                         sushi_T -= que_l[i][j]
@@ -82,7 +94,6 @@ for _ in range(Q):
     elif in_type == 1:
         name_n = name_hash(name)
         left = n - que_l[x][name_n]
-        # print(name + " " + str(left))
         if left > 0:
             table_list[x][name_n] = left
             customer_list[name_n] = x
